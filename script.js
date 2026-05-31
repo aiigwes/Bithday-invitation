@@ -13,7 +13,6 @@ envelope.addEventListener('click', () => {
 });
 startBtn.addEventListener('click', function() {
     createMegaConfetti();
-    
     const originalText = this.innerText;
     this.innerText = "LOADING... ";
     this.style.pointerEvents = "none";
