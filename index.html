@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aigerim's Birthday Invitation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="stage-container">
+        
+        <div class="pixel-envelope" id="envelope">
+            <div class="envelope-flap"></div>
+            <div class="envelope-paper">
+                <p>YOU HAVE<br>A MAIL!</p>
+                <div class="heart-seal">♥</div>
+            </div>
+            <div class="envelope-body"></div>
+        </div>
+
+        <div class="poster-container hidden" id="poster">
+            <div class="sky-elements">
+                <div class="pixel-moon animate-moon"></div>
+    
+                <div class="pixel-star s1" style="top: 8%; left: 12%;"></div>
+                <div class="pixel-star s2" style="top: 25%; left: 82%;"></div>
+                <div class="pixel-star s3" style="top: 45%; left: 7%;"></div>
+                <div class="pixel-star s1" style="top: 15%; left: 60%;"></div>
+                <div class="pixel-star s2" style="top: 38%; left: 22%;"></div>
+                <div class="pixel-star s3" style="top: 72%; left: 85%;"></div>
+                <div class="pixel-star s1" style="top: 92%; left: 14%;"></div>
+                <div class="pixel-star s2" style="top: 60%; left: 45%;"></div>
+                <div class="pixel-star s3" style="top: 52%; left: 78%;"></div>
+                <div class="pixel-star s1" style="top: 30%; left: 5%;"></div>
+
+                <div class="pixel-heart h1" style="top: 12%; left: 28%;"></div>
+                <div class="pixel-heart h2" style="top: 28%; left: 70%;"></div>
+                <div class="pixel-heart h3" style="top: 55%; left: 15%;"></div>
+                <div class="pixel-heart h1" style="top: 78%; left: 75%;"></div>
+                <div class="pixel-heart h2" style="top: 88%; left: 40%;"></div>
+                <div class="pixel-heart h3" style="top: 3%; left: 48%;"></div>
+            </div>
+
+            <div class="header-badge">YOU'RE INVITED!</div>
+            
+            <h1 class="main-title">
+                AIGERIM'S<br>
+                <span class="highlight">BIRTHDAY</span>
+            </h1>
+
+            <div class="level-badge">
+                <span class="heart animate-pulse-fast">♥</span> LEVEL 19 <span class="heart animate-pulse-fast">♥</span>
+            </div>
+
+            <div class="main-content">
+                <div class="character-zone">
+                    <div class="character-sprite animate-breath">
+                        <img src="character.png" alt="Aigerim" class="pixel-img" onerror="this.style.display='none';">
+                        <div class="avatar-fallback"></div> 
+                    </div>
+                    <div class="cat-sprite animate-tail">
+                        <img src="cat.png" alt="Cat" class="pixel-img" onerror="this.style.display='none';">
+                        <div class="cat-fallback"></div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="info-row">
+                        <div class="icon">📅</div>
+                        <div class="text-block">
+                            <div class="label">DATE</div>
+                            <div class="value val-pink">01 JUNE</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div class="info-row">
+                        <div class="icon">⏰</div>
+                        <div class="text-block">
+                            <div class="label">TIME</div>
+                            <div class="value val-yellow">18:00</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div class="info-row">
+                        <div class="icon">📍</div>
+                        <div class="text-block">
+                            <div class="label">LOCATION</div>
+                            <div class="value val-purple">TO BE ANNOUNCED</div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+
+                    <div class="info-row">
+                        <div class="icon">🎁</div>
+                        <div class="text-block">
+                            <div class="label">REWARD</div>
+                            <div class="value val-reward">CAKE + FUN<br>+ MEMORIES</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-start" id="startBtn">START PARTY </button>
+
+            <div class="footer-text">
+                <span class="heart animate-pulse-fast">♥</span> ARE YOU READY? <span class="heart animate-pulse-fast">♥</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

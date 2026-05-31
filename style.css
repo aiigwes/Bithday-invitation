@@ -1,0 +1,302 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Press Start 2P', monospace;
+    image-rendering: pixelated;
+}
+
+body {
+    background-color: #120c1f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    perspective: 1000px;
+}
+
+.stage-container {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    height: 680px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- КОНВЕРТ --- */
+/* --- ОБНОВЛЕННЫЙ ПИКСЕЛЬНЫЙ КОНВЕРТ (2D СТИЛЬ) --- */
+.pixel-envelope {
+    position: absolute;
+    width: 320px;
+    height: 220px;
+    background-color: #2d254e; /* Темная внутренняя часть */
+    border: 6px solid #1a1531;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 8px 0 #000;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+/* Нижняя часть конверта (кармашек) */
+.envelope-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background-color: #3d3363;
+    border-top: 4px solid #1a1531;
+    clip-path: polygon(0 100%, 0 0, 50% 50%, 100% 0, 100% 100%);
+    z-index: 3;
+}
+
+/* Верхний клапан (Изначально закрыт — смотрит вниз) */
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 110px;
+    background-color: #433973;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    z-index: 4;
+    transition: clip-path 0.2s steps(2); /* Резкое пиксельное переключение кадра */
+}
+
+/* Состояние: Клапан ОТКРЫЛСЯ (теперь смотрит вверх) */
+.pixel-envelope.open .envelope-flap {
+    top: -106px;
+    clip-path: polygon(0 100%, 100% 100%, 50% 0);
+    z-index: 1; /* Уходит за письмо */
+}
+
+/* Письмо внутри */
+.envelope-paper {
+    position: absolute;
+    bottom: 10px;
+    left: 15px;
+    width: 278px;
+    height: 180px;
+    background-color: #ffb8d1;
+    border: 4px dashed #e57293;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 2;
+    transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.envelope-paper p { font-size: 12px; color: #1a1531; line-height: 1.6; font-weight: bold; }
+.heart-seal { color: #ff527b; font-size: 20px; margin-top: 8px; animation: pulse 1s infinite; }
+
+/* Анимация вылета письма вверх */
+.pixel-envelope.open .envelope-paper {
+    transform: translateY(-130px);
+}
+
+/* Плавный уход открытого конверта вниз */
+.pixel-envelope.slide-down {
+    transform: translateY(300px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --- ПОСТЕР (Появление) --- */
+.poster-container {
+    background-color: #1a1531;
+    width: 100%;
+    height: 100%;
+    border: 6px double #3d3363;
+    outline: 4px solid #1a1531;
+    box-shadow: 0 0 25px rgba(0,0,0,0.8);
+    padding: 30px 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 5;
+    
+    /* Плавное проявление */
+    opacity: 0;
+    transform: scale(0.95);
+    transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.1), opacity 1s ease;
+    pointer-events: none;
+}
+
+/* Эффект выплывания самого постера */
+.poster-container.show {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+/* Элементы неба и их анимации */
+.sky-elements { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 1; }
+.star { position: absolute; color: #f7d070; font-size: 14px; }
+.bg-heart { position: absolute; color: #ff527b; font-size: 12px; opacity: 0.6; }
+
+/* АНИМАЦИЯ ЛУНЫ (Парение) */
+/* --- ГРАФИКА НА ЧИСТОМ CSS (ПИКСЕЛЬ-АРТ) --- */
+
+/* 1. Пиксельная Луна (Отрисована по квадратикам) */
+.pixel-moon {
+    position: absolute;
+    top: 5%;
+    right: 15%;
+    width: 12px;  /* Размер одного пикселя */
+    height: 10px;
+    background: transparent;
+    /* Рисуем форму полумесяца желтым цветом #f7d070 */
+    box-shadow: 
+        18px 0 0 #f7d070, 24px 0 0 #f7d070,
+        12px 6px 0 #f7d070, 18px 6px 0 #f7d070,
+        6px 12px 0 #f7d070, 12px 12px 0 #f7d070,
+        0 18px 0 #f7d070, 6px 18px 0 #f7d070,
+        0 24px 0 #f7d070, 6px 24px 0 #f7d070,
+        6px 30px 0 #f7d070, 12px 30px 0 #f7d070,
+        12px 36px 0 #f7d070, 18px 36px 0 #f7d070,
+        18px 42px 0 #f7d070, 24px 42px 0 #f7d070;
+}
+
+/* 2. Пиксельная Звезда (В форме классического ретро-крестика) */
+.pixel-star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: transparent;
+    /* Центр звезды и 4 луча вокруг */
+    box-shadow:
+        4px 0 0 #f7d070,
+        0 4px 0 #f7d070, 4px 4px 0 #fff, 8px 4px 0 #f7d070,
+        4px 8px 0 #f7d070;
+}
+
+/* 3. Пиксельное Сердечко */
+.pixel-heart {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: transparent;
+    /* Форма ретро-сердца розовым цветом #ff527b */
+    box-shadow:
+        3px 0 0 #ff527b, 6px 0 0 #ff527b, 15px 0 0 #ff527b, 18px 0 0 #ff527b,
+        0 3px 0 #ff527b, 3px 3px 0 #ff527b, 6px 3px 0 #ff527b, 9px 3px 0 #ff527b, 12px 3px 0 #ff527b, 15px 3px 0 #ff527b, 18px 3px 0 #ff527b, 21px 3px 0 #ff527b,
+        0 6px 0 #ff527b, 3px 6px 0 #ff527b, 6px 6px 0 #ff527b, 9px 6px 0 #ff527b, 12px 6px 0 #ff527b, 15px 6px 0 #ff527b, 18px 6px 0 #ff527b, 21px 6px 0 #ff527b,
+        3px 9px 0 #ff527b, 6px 9px 0 #ff527b, 9px 9px 0 #ff527b, 12px 9px 0 #ff527b, 15px 9px 0 #ff527b, 18px 9px 0 #ff527b,
+        6px 12px 0 #ff527b, 9px 12px 0 #ff527b, 12px 12px 0 #ff527b, 15px 12px 0 #ff527b,
+        9px 15px 0 #ff527b, 12px 15px 0 #ff527b;
+    opacity: 0.7;
+}
+
+/* --- ОБНОВЛЕННЫЕ АНИМАЦИИ --- */
+
+/* Плавное покачивание Луны */
+@keyframes moonFloat {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+}
+.animate-moon { 
+    animation: moonFloat 4s infinite ease-in-out; 
+}
+
+/* Мерцание и легкое пульсирование пиксельных звезд */
+@keyframes pixelBlink { 
+    0%, 100% { opacity: 0.2; transform: scale(0.8); } 
+    50% { opacity: 1; transform: scale(1.1); } 
+}
+.s1 { animation: pixelBlink 1.2s infinite; }
+.s2 { animation: pixelBlink 1.9s infinite 0.3s; }
+.s3 { animation: pixelBlink 1.5s infinite 0.6s; }
+
+/* Биение пиксельных сердечек */
+@keyframes pixelHeartBeat { 
+    0%, 100% { transform: scale(0.9); opacity: 0.5; } 
+    50% { transform: scale(1.15); opacity: 0.9; } 
+}
+.h1 { animation: pixelHeartBeat 1.8s infinite ease-in-out; }
+.h2 { animation: pixelHeartBeat 2.4s infinite ease-in-out 0.4s; }
+.h3 { animation: pixelHeartBeat 1.5s infinite ease-in-out 0.8s; }
+.animate-moon { animation: moonFloat 3s infinite ease-in-out; }
+
+/* Мерцание звезд */
+@keyframes blink { 0%, 100% { opacity: 0.2; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.2); } }
+.s1 { animation: blink 1.2s infinite; }
+.s2 { animation: blink 1.8s infinite 0.4s; }
+.s3 { animation: blink 1.5s infinite 0.7s; }
+
+/* Пульсация фоновых сердечек */
+@keyframes heartBeat { 0%, 100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.3); opacity: 0.8; } }
+.h1 { animation: heartBeat 2s infinite ease-in-out; }
+.h2 { animation: heartBeat 2.5s infinite ease-in-out 0.3s; }
+.h3 { animation: heartBeat 1.7s infinite ease-in-out 0.6s; }
+
+/* Шапки и заголовки */
+.header-badge { background-color: #433973; color: #ffb8d1; font-size: 11px; padding: 8px 14px; border: 2px solid #ffb8d1; border-radius: 4px; position: relative; margin-bottom: 5px; z-index: 2; }
+.main-title { color: #ffffff; text-align: center; font-size: 26px; line-height: 1.4; text-shadow: 3px 3px 0px #000; z-index: 2; }
+.main-title .highlight { color: #ff8fa9; }
+.level-badge { color: #9287c4; font-size: 14px; margin-bottom: 10px; z-index: 2; }
+.level-badge .heart { color: #ff527b; display: inline-block; }
+
+@keyframes pulseFast { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.25); } }
+.animate-pulse-fast { animation: pulseFast 0.8s infinite; }
+
+/* --- ИЗМЕНЕННАЯ ЗОНА ПЕРСОНАЖЕЙ (УВЕЛИЧЕНЫ) --- */
+.main-content { display: flex; width: 100%; justify-content: space-between; align-items: flex-end; margin-bottom: 15px; z-index: 2; }
+.character-zone { position: relative; width: 45%; height: 210px; background: transparent !important; }
+
+/* Персонаж стал шире и выше */
+.character-sprite { 
+    position: absolute; 
+    bottom: 0; 
+    left: -10px; 
+    width: 260px; 
+    height: 260px; 
+    background: transparent !important;
+}
+/* Кошка стала больше */
+.cat-sprite { 
+    position: absolute; 
+    bottom: 0px; 
+    left: -20px; 
+    width: 100px; 
+    height: 100px; 
+    background: transparent !important;
+}
+.pixel-img { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; background-color: transparent !important; }
+.avatar-fallback { font-size: 80px; text-shadow: 3px 3px 0 #000; }
+.cat-fallback { font-size: 45px; }
+
+/* Карточка инфо */
+.info-card { background-color: #120c24; border: 3px solid #902fab; border-radius: 8px; width: 52%; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.info-row { display: flex; align-items: center; gap: 8px; }
+.info-row .icon { font-size: 18px; }
+.text-block { display: flex; flex-direction: column; gap: 5px; }
+.info-card .label { color: #ffffff; font-size: 9px; }
+.info-card .value { font-size: 10px; font-weight: bold; line-height: 1.5; }
+.val-pink { color: #ff8fa9; }
+.val-yellow { color: #f7d070; }
+.val-purple { color: #a192e6; }
+.val-reward { color: #ff8fa9; }
+.divider { border-bottom: 2px dashed #282047; margin: 2px 0; }
+
+/* Кнопка и футер */
+.btn-start { background-color: #e57293; color: #120c24; border: 15px;border-radius: 15px; outline: 4px solid #e57293; border-top: 10px solid #ff9ebb; border-bottom: 10px solid #b24667; padding: 14px 0; width: 90%; font-size: 17px; cursor: pointer; box-shadow: 0 6px 0 #000; margin-bottom: 15px; transition: transform 0.1s, box-shadow 0.1s; z-index: 2; }
+.btn-start:active { transform: translateY(4px); box-shadow: 0 2px 0 #000; }
+.footer-text { color: #635794; font-size: 10px; z-index: 2; }
+
+/* --- АНИМАЦИИ ДВИЖЕНИЙ --- */
+@keyframes breath { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.05) translateY(-3px); } }
+.animate-breath { animation: breath 2s infinite ease-in-out; transform-origin: bottom; }
+
+@keyframes cat-wag { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-7deg) scale(1.03); } }
+.animate-tail { animation: cat-wag 2s infinite ease-in-out; transform-origin: bottom center; }
+
+/* Конфетти */
+.confetti-container { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 10; }
+.confetti { position: absolute; width: 8px; height: 8px; border-radius: 2px; animation: fall 3s linear forwards; }
+@keyframes fall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(540deg); opacity: 0; } }
